@@ -16,7 +16,9 @@ class App extends Component {
   };
 
   isExist = name => {
-    return this.state.contacts.some(el => el.name === name);
+    return this.state.contacts.some(
+      el => el.name.toLowerCase() === name.toLowerCase()
+    );
   };
 
   handleSubmit = contact => {
