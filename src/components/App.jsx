@@ -11,9 +11,21 @@ import { nanoid } from 'nanoid';
 
 class App extends Component {
   state = {
-    contacts: JSON.parse(localStorage.getItem('contacts')) || [],
+    contacts: [],
     filter: '',
   };
+
+  componentDidMount() {
+    this.setState({
+      contacts: JSON.parse(localStorage.getItem('contacts')) || [],
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   isExist = name => {
     return this.state.contacts.some(
@@ -55,12 +67,6 @@ class App extends Component {
       contacts: prevState.contacts.filter(contact => contact.id !== id),
     }));
   };
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
 
   render() {
     const filteredContacts = this.filterContacts();
